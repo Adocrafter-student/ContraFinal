@@ -1,0 +1,2 @@
+,fetch_date,start_date,end_date,tickers,market,num_trading_days,columns
+0,2025-12-07 16:15:52,2018-01-01,2020-12-31,"['TSLA', 'AMZN', 'META']",^GSPC,755,"['^GSPC', 'TSLA', 'AMZN', 'META']"
