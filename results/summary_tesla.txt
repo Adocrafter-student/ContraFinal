@@ -1,0 +1,25 @@
+======================================================================
+CONTRA MODEL RESULTS: Tesla (TSLA)
+======================================================================
+
+TRAINING SET PERFORMANCE (Adjusted R²):
+  Baseline (Market only):  0.117840
+  CONTRA (+ Sentiment):    0.140163
+  Improvement:             0.022323 (+18.94%)
+
+TEST SET PERFORMANCE (227 observations):
+  MAE  — Baseline: 3.489087e-02  |  CONTRA: 3.490407e-02  |  Δ: -0.04%
+  RMSE — Baseline: 4.754301e-02  |  CONTRA: 4.758329e-02  |  Δ: -0.08%
+
+SENTIMENT-ALPHA COEFFICIENT (θ):
+  θ = 0.005624  (p=0.0313) **
+  Interpretation: 1 SD ↑ in sentiment → 0.562% Δ in daily return
+
+BASELINE MODEL PARAMETERS:
+  α (intercept): 1.659038e-03 (p=0.2634)
+  β (market):    1.353699 (p=0.0000)
+
+CONTRA MODEL PARAMETERS:
+  α (intercept):  1.870405e-03 (p=0.2102)
+  β (market):     1.388446 (p=0.0000)
+  θ (sentiment):  0.005624 (p=0.0313)

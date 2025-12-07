@@ -1,0 +1,25 @@
+======================================================================
+CONTRA MODEL RESULTS: Amazon (AMZN)
+======================================================================
+
+TRAINING SET PERFORMANCE (Adjusted R²):
+  Baseline (Market only):  0.515186
+  CONTRA (+ Sentiment):    0.514300
+  Improvement:             -0.000885 (-0.17%)
+
+TEST SET PERFORMANCE (227 observations):
+  MAE  — Baseline: 1.835970e-02  |  CONTRA: 1.837144e-02  |  Δ: -0.06%
+  RMSE — Baseline: 2.593104e-02  |  CONTRA: 2.593935e-02  |  Δ: -0.03%
+
+SENTIMENT-ALPHA COEFFICIENT (θ):
+  θ = 0.000125  (p=0.7619) 
+  Interpretation: 1 SD ↑ in sentiment → 0.013% Δ in daily return
+
+BASELINE MODEL PARAMETERS:
+  α (intercept): 5.522926e-04 (p=0.3455)
+  β (market):    1.459158 (p=0.0000)
+
+CONTRA MODEL PARAMETERS:
+  α (intercept):  5.745727e-04 (p=0.3335)
+  β (market):     1.459855 (p=0.0000)
+  θ (sentiment):  0.000125 (p=0.7619)

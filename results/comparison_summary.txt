@@ -1,0 +1,18 @@
+======================================================================
+CONTRA ANALYSIS: COMPARATIVE SUMMARY
+======================================================================
+
+Tesla (TSLA):
+  R² Improvement: 0.022323
+  Sentiment Coefficient (θ): 0.005624 (p=0.0313)
+  RMSE Reduction: -0.08%
+
+Amazon (AMZN):
+  R² Improvement: -0.000885
+  Sentiment Coefficient (θ): 0.000125 (p=0.7619)
+  RMSE Reduction: -0.03%
+
+Meta (META):
+  R² Improvement: 0.010046
+  Sentiment Coefficient (θ): 0.002071 (p=0.3104)
+  RMSE Reduction: -0.77%

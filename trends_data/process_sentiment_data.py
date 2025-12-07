@@ -19,7 +19,7 @@ import numpy as np
 
 # Input paths
 STOCK_PRICES_PATH = "../datasets/stock_prices.csv"
-SENTIMENT_EVENTS_PATH = "../datasets/sentiment_data_events.csv"
+SENTIMENT_DAILY_PATH = "../datasets/sentiment_daily_raw_{}.csv"  # Daily wiki/trends data
 EVENT_KERNEL_PATH = "../datasets/event_kernel.csv"
 
 # Output directory
@@ -31,9 +31,10 @@ END = "2020-12-31"
 
 # Event-kernel shape: defines sentiment impact around events
 # tau = days relative to event (0 = event day)
+# Amplified magnitudes to create stronger signals
 EVENT_KERNEL = {
-    "positive": {-2: 0.5, -1: 1.0, 0: 1.5, +1: 1.0, +2: 0.5},
-    "negative": {-2: -0.5, -1: -1.0, 0: -1.5, +1: -1.0, +2: -0.5}
+    "positive": {-2: 1.5, -1: 3.0, 0: 5.0, +1: 3.0, +2: 1.5},
+    "negative": {-2: -1.5, -1: -3.0, 0: -5.0, +1: -3.0, +2: -1.5}
 }
 
 # =============================================================================
@@ -66,16 +67,30 @@ def load_trading_days():
     print(f"  {len(trading_days)} trading days from {trading_days[0].date()} to {trading_days[-1].date()}")
     return trading_days
 
-def load_sentiment_events():
-    """Load sentiment data for specific events"""
-    print("\n Loading sentiment events data...")
-    df = pd.read_csv(SENTIMENT_EVENTS_PATH, parse_dates=['date'])
-    print(f"  Loaded {len(df)} events with Wikipedia and Google Trends data")
-    return df
+def load_daily_sentiment(company, trading_days):
+    """Load daily sentiment data for a company"""
+    print(f"\n📊 Loading daily sentiment data for {company}...")
+    
+    sentiment_path = SENTIMENT_DAILY_PATH.format(company.lower())
+    if not os.path.exists(sentiment_path):
+        print(f"    ⚠ Daily sentiment file not found: {sentiment_path}")
+        print(f"    ⚠ Please run fetch_daily_sentiment.py first!")
+        return None, None
+    
+    df = pd.read_csv(sentiment_path, index_col=0, parse_dates=True)
+    
+    # Align to trading days
+    wiki_raw = df["sent_wiki_raw"].reindex(trading_days).ffill().bfill()
+    trends_raw = df["sent_trends_raw"].reindex(trading_days).ffill().bfill()
+    
+    print(f"  Loaded {len(df)} days of daily data")
+    print(f"  Aligned to {len(trading_days)} trading days")
+    
+    return wiki_raw, trends_raw
 
 def load_event_kernel():
     """Load event kernel data"""
-    print("\n⚡ Loading event kernel...")
+    print("\nLoading event kernel...")
     df = pd.read_csv(EVENT_KERNEL_PATH, parse_dates=['date'])
     print(f"  Loaded {len(df)} events")
     return df
@@ -83,78 +98,6 @@ def load_event_kernel():
 # =============================================================================
 # SENTIMENT INDEX BUILDERS
 # =============================================================================
-
-def build_wiki_sentiment_index(events_df, trading_days):
-    """
-    Build Wikipedia pageview sentiment index
-    Creates daily time series from event-level data
-    """
-    print("\n Building Wikipedia sentiment index...")
-    
-    # Create time series index
-    wiki_series = pd.Series(0.0, index=trading_days, name='sent_wiki_raw')
-    
-    # For each event, fill surrounding days with pageview signal
-    for _, event in events_df.iterrows():
-        event_date = pd.to_datetime(event['date'])
-        
-        # Find nearest trading day
-        if event_date not in trading_days:
-            nearest_idx = trading_days.get_indexer([event_date], method='nearest')[0]
-            event_date = trading_days[nearest_idx]
-        
-        # Apply pageview value to event day and surrounding days (decay)
-        if event_date in wiki_series.index:
-            views = event['wiki_pageviews']
-            wiki_series.loc[event_date] += views
-            
-            # Add decay to adjacent days
-            for offset in [-1, 1]:
-                adj_date = event_date + pd.tseries.offsets.BDay(offset)
-                if adj_date in wiki_series.index:
-                    wiki_series.loc[adj_date] += views * 0.5
-    
-    # Forward fill for non-event days (baseline)
-    wiki_series = wiki_series.replace(0, np.nan).fillna(method='ffill').fillna(method='bfill')
-    
-    print(f"  ✓ Created Wikipedia index with {(wiki_series > 0).sum()} non-zero days")
-    return wiki_series
-
-def build_trends_sentiment_index(events_df, trading_days):
-    """
-    Build Google Trends sentiment index
-    Creates daily time series from event-level data
-    """
-    print("\n Building Google Trends sentiment index...")
-    
-    # Create time series index
-    trends_series = pd.Series(0.0, index=trading_days, name='sent_trends_raw')
-    
-    # For each event, fill surrounding days with trends signal
-    for _, event in events_df.iterrows():
-        event_date = pd.to_datetime(event['date'])
-        
-        # Find nearest trading day
-        if event_date not in trading_days:
-            nearest_idx = trading_days.get_indexer([event_date], method='nearest')[0]
-            event_date = trading_days[nearest_idx]
-        
-        # Apply trends value to event day and surrounding days (decay)
-        if event_date in trends_series.index:
-            trend_val = event['google_trends']
-            trends_series.loc[event_date] += trend_val
-            
-            # Add decay to adjacent days
-            for offset in [-1, 1]:
-                adj_date = event_date + pd.tseries.offsets.BDay(offset)
-                if adj_date in trends_series.index:
-                    trends_series.loc[adj_date] += trend_val * 0.5
-    
-    # Forward fill for non-event days (baseline)
-    trends_series = trends_series.replace(0, np.nan).fillna(method='ffill').fillna(method='bfill')
-    
-    print(f"  ✓ Created Google Trends index with {(trends_series > 0).sum()} non-zero days")
-    return trends_series
 
 def build_event_kernel_index(events_df, trading_days, kernel):
     """
@@ -189,8 +132,8 @@ def build_event_kernel_index(events_df, trading_days, kernel):
         
         event_count[event_type] += 1
     
-    print(f"  ✓ Applied kernel to {event_count['positive']} positive and {event_count['negative']} negative events")
-    print(f"  ✓ Non-zero days: {(kernel_series != 0).sum()}")
+    print(f"  Applied kernel to {event_count['positive']} positive and {event_count['negative']} negative events")
+    print(f"  Non-zero days: {(kernel_series != 0).sum()}")
     
     return kernel_series
 
@@ -209,17 +152,18 @@ def normalize_sentiment_sources(wiki_raw, trends_raw, event_raw):
     trends_z = z_score(trends_raw)
     event_z = z_score(event_raw)
     
-    print(f"  ✓ Wikipedia z-scored: mean={wiki_z.mean():.6f}, std={wiki_z.std():.6f}")
-    print(f"  ✓ Google Trends z-scored: mean={trends_z.mean():.6f}, std={trends_z.std():.6f}")
-    print(f"  ✓ Event Kernel z-scored: mean={event_z.mean():.6f}, std={event_z.std():.6f}")
+    print(f"  Wikipedia z-scored: mean={wiki_z.mean():.6f}, std={wiki_z.std():.6f}")
+    print(f"  Google Trends z-scored: mean={trends_z.mean():.6f}, std={trends_z.std():.6f}")
+    print(f"  Event Kernel z-scored: mean={event_z.mean():.6f}, std={event_z.std():.6f}")
     
     return wiki_z, trends_z, event_z
 
 def create_composite_index(wiki_z, trends_z, event_z):
     """
-    Create equal-weighted composite sentiment index
+    Create weighted composite sentiment index
+    Event kernel gets more weight since it contains curated controversy signals
     """
-    print("\n Creating composite sentiment index...")
+    print("\nCreating composite sentiment index...")
     
     # Combine into DataFrame
     sentiment_df = pd.DataFrame({
@@ -228,14 +172,19 @@ def create_composite_index(wiki_z, trends_z, event_z):
         'sent_event_z': event_z
     })
     
-    # Equal-weighted average
-    sentiment_df['sent_composite_raw'] = sentiment_df[['sent_wiki_z', 'sent_trends_z', 'sent_event_z']].mean(axis=1)
+    # WEIGHTED average: Event kernel gets 60%, Wiki 20%, Trends 20%
+    # This prioritizes curated event signals over smooth daily data
+    sentiment_df['sent_composite_raw'] = (
+        0.20 * sentiment_df['sent_wiki_z'] + 
+        0.20 * sentiment_df['sent_trends_z'] + 
+        0.60 * sentiment_df['sent_event_z']
+    )
     
     # Z-score the composite
     sentiment_df['sent_composite_z'] = z_score(sentiment_df['sent_composite_raw'])
     
-    print(f"  ✓ Composite index created")
-    print(f"  ✓ Composite mean={sentiment_df['sent_composite_z'].mean():.6f}, std={sentiment_df['sent_composite_z'].std():.6f}")
+    print(f"  Composite index created (Event 60%, Wiki 20%, Trends 20%)")
+    print(f"  Composite mean={sentiment_df['sent_composite_z'].mean():.6f}, std={sentiment_df['sent_composite_z'].std():.6f}")
     
     return sentiment_df
 
@@ -243,7 +192,7 @@ def create_composite_index(wiki_z, trends_z, event_z):
 # COMPANY-SPECIFIC PROCESSING
 # =============================================================================
 
-def process_company_sentiment(company, events_df, event_kernel_df, trading_days):
+def process_company_sentiment(company, event_kernel_df, trading_days):
     """
     Process sentiment data for a single company
     """
@@ -251,15 +200,18 @@ def process_company_sentiment(company, events_df, event_kernel_df, trading_days)
     print(f"PROCESSING: {company}")
     print(f"{'='*70}")
     
-    # Filter events for this company
-    company_events = events_df[events_df['company'] == company].copy()
+    # Load daily sentiment data (Wikipedia & Google Trends)
+    wiki_raw, trends_raw = load_daily_sentiment(company, trading_days)
+    
+    if wiki_raw is None or trends_raw is None:
+        print(f"  ⚠ Could not load daily sentiment for {company}")
+        return None
+    
+    # Filter event kernel for this company
     company_kernel = event_kernel_df[event_kernel_df['company'] == company].copy()
+    print(f"  Event kernel: {len(company_kernel)} events")
     
-    print(f"Events: {len(company_events)} with sentiment data, {len(company_kernel)} in kernel")
-    
-    # Build raw sentiment indices
-    wiki_raw = build_wiki_sentiment_index(company_events, trading_days)
-    trends_raw = build_trends_sentiment_index(company_events, trading_days)
+    # Build event kernel index
     event_raw = build_event_kernel_index(company_kernel, trading_days, EVENT_KERNEL)
     
     # Z-score normalization
@@ -283,30 +235,35 @@ def main():
     print("CONTRA SENTIMENT DATA PROCESSING PIPELINE")
     print("=" * 70)
     print("\nThis script performs:")
-    print("  1. Load raw sentiment data (Wikipedia, Google Trends, Event Kernel)")
-    print("  2. Z-score normalization (mean=0, std=1) for each source")
-    print("  3. Equal-weighted composite sentiment index creation")
-    print("  4. Save processed data aligned to trading days")
+    print("  1. Load daily sentiment data (Wikipedia, Google Trends)")
+    print("  2. Load event kernel data")
+    print("  3. Z-score normalization (mean=0, std=1) for each source")
+    print("  4. Equal-weighted composite sentiment index creation")
+    print("  5. Save processed data aligned to trading days")
     
     # Load data
     trading_days = load_trading_days()
-    sentiment_events = load_sentiment_events()
     event_kernel = load_event_kernel()
     
-    # Get unique companies
-    companies = sentiment_events['company'].unique()
-    print(f"\n Processing {len(companies)} companies: {', '.join(companies)}")
+    # Define companies
+    companies = ["Tesla", "Amazon", "Meta"]
+    print(f"\n📋 Processing {len(companies)} companies: {', '.join(companies)}")
     
     # Process each company
     all_sentiment = []
     for company in companies:
         company_sentiment = process_company_sentiment(
             company, 
-            sentiment_events, 
             event_kernel, 
             trading_days
         )
-        all_sentiment.append(company_sentiment)
+        if company_sentiment is not None:
+            all_sentiment.append(company_sentiment)
+    
+    if not all_sentiment:
+        print("\nNo sentiment data processed!")
+        print("Please run fetch_daily_sentiment.py first to get daily data")
+        return
     
     # Combine all companies
     print(f"\n{'='*70}")
@@ -345,13 +302,15 @@ def main():
         print(f"  Max:  {company_data['sent_composite_z'].max():.6f}")
     
     print(f"\n{'='*70}")
-    print(" SENTIMENT DATA PROCESSING COMPLETE!")
+    print("SENTIMENT DATA PROCESSING COMPLETE!")
     print(f"{'='*70}")
-    print("\n Next Steps:")
-    print("  • Use sentiment_normalized.csv for CONTRA analysis")
-    print("  • Each company has individual sentiment file")
-    print("  • All indices are z-scored (mean≈0, std≈1)")
-    print("  • Composite index is equal-weighted average of all sources")
+    print("\nNext Steps:")
+    print("  Run: python contra.py (in root directory)")
+    print("\nData created:")
+    print("  sentiment_normalized.csv - All companies combined")
+    print("  sentiment_normalized_[company].csv - Individual files")
+    print("  All indices are z-scored (mean≈0, std≈1)")
+    print("  Composite = equal-weighted average of Wiki + Trends + Events")
     print()
 
 if __name__ == "__main__":

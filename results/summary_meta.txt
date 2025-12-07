@@ -1,0 +1,25 @@
+======================================================================
+CONTRA MODEL RESULTS: Meta (META)
+======================================================================
+
+TRAINING SET PERFORMANCE (Adjusted R²):
+  Baseline (Market only):  0.323315
+  CONTRA (+ Sentiment):    0.333362
+  Improvement:             0.010046 (+3.11%)
+
+TEST SET PERFORMANCE (227 observations):
+  MAE  — Baseline: 1.545873e-02  |  CONTRA: 1.558554e-02  |  Δ: -0.82%
+  RMSE — Baseline: 2.067837e-02  |  CONTRA: 2.083849e-02  |  Δ: -0.77%
+
+SENTIMENT-ALPHA COEFFICIENT (θ):
+  θ = 0.002071  (p=0.3104) 
+  Interpretation: 1 SD ↑ in sentiment → 0.207% Δ in daily return
+
+BASELINE MODEL PARAMETERS:
+  α (intercept): -6.991625e-05 (p=0.9260)
+  β (market):    1.274758 (p=0.0000)
+
+CONTRA MODEL PARAMETERS:
+  α (intercept):  -1.421093e-04 (p=0.8558)
+  β (market):     1.273990 (p=0.0000)
+  θ (sentiment):  0.002071 (p=0.3104)

@@ -1,30 +1,29 @@
 date,company,ceo,event,event_type,wiki_pageviews,google_trends
-2018-08-07,Tesla,Elon Musk,Funding secured tweet,positive,29675,61.0
-2018-08-17,Tesla,Elon Musk,SEC investigation announced,negative,54808,72.0
-2018-09-07,Tesla,Elon Musk,Joe Rogan podcast,negative,155528,98.0
-2018-10-04,Tesla,Elon Musk,SEC settlement,positive,25115,41.0
-2019-02-19,Tesla,Elon Musk,SEC contempt motion,negative,15576,55.5
+2018-08-07,Tesla,Elon Musk,Funding secured tweet,positive,29675,60.5
+2018-08-17,Tesla,Elon Musk,SEC investigation announced,negative,54808,74.0
+2018-09-07,Tesla,Elon Musk,Joe Rogan podcast,negative,155528,97.5
+2018-10-04,Tesla,Elon Musk,SEC settlement,positive,25115,40.5
+2019-02-19,Tesla,Elon Musk,SEC contempt motion,negative,15576,54.0
 2019-04-11,Tesla,Elon Musk,Autonomy Day,positive,17665,47.5
-2019-10-23,Tesla,Elon Musk,Q3 profit surprise,positive,17481,44.5
-2020-01-29,Tesla,Elon Musk,Q4 earnings beat,positive,19241,42.5
-2020-02-03,Tesla,Elon Musk,Stock crosses $900,positive,27958,30.0
-2020-02-05,Tesla,Elon Musk,Stock drops 17%,negative,25972,55.5
+2019-10-23,Tesla,Elon Musk,Q3 profit surprise,positive,17481,42.5
+2020-01-29,Tesla,Elon Musk,Q4 earnings beat,positive,19241,41.5
+2020-02-03,Tesla,Elon Musk,Stock crosses $900,positive,27958,29.5
+2020-02-05,Tesla,Elon Musk,Stock drops 17%,negative,38615,48.5
 2020-03-18,Tesla,Elon Musk,COVID factory controversy,negative,14508,54.0
-2020-05-01,Tesla,Elon Musk,Stock price too high tweet,negative,60632,82.0
+2020-05-01,Tesla,Elon Musk,Stock price too high tweet,negative,60632,82.5
 2020-12-21,Tesla,Elon Musk,S&P 500 inclusion,positive,31891,55.0
 2018-11-13,Amazon,Jeff Bezos,HQ2 announcement (NYC/Arlington),positive,24750,50.5
 2019-01-09,Amazon,Jeff Bezos,Divorce announcement,negative,160913,54.0
 2019-02-07,Amazon,Jeff Bezos,National Enquirer extortion claims,negative,16730,45.5
 2019-02-14,Amazon,Jeff Bezos,HQ2 NYC cancellation,negative,25894,45.0
 2019-07-15,Amazon,Jeff Bezos,Prime Day technical outage,negative,19503,50.0
-2020-04-30,Amazon,Jeff Bezos,Q1 earnings beat (COVID boost),positive,25459,50.0
+2020-04-30,Amazon,Jeff Bezos,Q1 earnings beat (COVID boost),positive,25459,48.5
 2020-07-29,Amazon,Jeff Bezos,Congress antitrust testimony,negative,71621,51.0
-2018-03-17,Meta,Mark Zuckerberg,Cambridge Analytica scandal,negative,9985,48.0
+2018-03-17,Meta,Mark Zuckerberg,Cambridge Analytica scandal,negative,9985,50.0
 2018-04-10,Meta,Mark Zuckerberg,Congress testimony Day 1,negative,209600,52.5
-2018-04-11,Meta,Mark Zuckerberg,Congress testimony Day 2,negative,296697,49.0
+2018-04-11,Meta,Mark Zuckerberg,Congress testimony Day 2,negative,296697,50.5
 2018-07-26,Meta,Mark Zuckerberg,Stock crashes 19% on earnings,negative,25959,50.5
-2018-11-14,Meta,Mark Zuckerberg,NY Times scandal report,negative,13433,43.5
+2018-11-14,Meta,Mark Zuckerberg,NY Times scandal report,negative,13433,45.0
 2019-03-13,Meta,Mark Zuckerberg,Major platform outage,negative,14574,50.0
-2019-10-23,Meta,Mark Zuckerberg,Congress testimony on Libra,negative,25037,48.5
-2020-07-29,Meta,Mark Zuckerberg,Antitrust hearing with Bezos,negative,26311,47.5
-
+2019-10-23,Meta,Mark Zuckerberg,Congress testimony on Libra,negative,25037,47.0
+2020-07-29,Meta,Mark Zuckerberg,Antitrust hearing with Bezos,negative,26311,49.5
