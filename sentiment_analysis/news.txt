@@ -36,7 +36,7 @@ In 2013, the SEC ruled that companies are allowed to use social media outlets li
 Musk’s fondness for making statements via Twitter has backfired in the past. He attracted furious criticism after baselessly calling a British diver who helped rescue the boys trapped in a flooded cave in Thailand a “pedo”. Tesla’s share price dropped and Musk was forced to apologise.
 
 === ARTICLE ===
-date: 2018-17-08
+date: 2018-08-17
 company: Tesla
 event: SEC investigation announced
 title: ‘He’s not unlike the president’: How Elon Musk shapes Tesla coverage
@@ -44,7 +44,7 @@ text:
 Tesla chief executive Elon Musk over the past week has faced intensifying questions from federal investigators over his desire to take the carmaker private, company shareholders are lobbing legal bombs, and — whoa, look over there!
 
 === ARTICLE ===
-date: 2018-09-27
+date: 2018-09-07
 company: Tesla
 event: Joe Rogan podcast
 title: Tesla shares crash after Elon Musk smokes joint on live web show
@@ -94,7 +94,7 @@ Many of Musk’s Twitter followers questioned if smoking marijuana was against t
 === ARTICLE ===
 date: 2018-10-04
 company: Tesla
-event: SEC lawsuit filed
+event: SEC settlement
 title: Elon Musk and Tesla to pay $40m to settle SEC case over tweets
 text:
 Musk will step down as Tesla chair but stay as CEO
@@ -120,7 +120,7 @@ Neither Musk nor Tesla admitted or denied the SEC’s findings as part of the se
 === ARTICLE ===
 date: 2019-02-19
 company: Tesla
-event: SEC settlement
+event: SEC contempt motion
 title: Tesla's Musk ordered to respond to SEC contempt motion by March 11
 text:
 NEW YORK, A federal judge on Tuesday ordered Tesla Inc Chief Executive Elon Musk to explain by March 11 why he should not be held in contempt for violating a settlement agreement with the U.S. Securities and Exchange Commission.
@@ -129,11 +129,10 @@ U.S. District Judge Alison Nathan in Manhattan issued her order one day after th
 === ARTICLE ===
 date: 2019-04-11
 event: Autonomy Day
+company: Tesla
 title: Tesla Autonomy Investor Day 2019: 7 Notable Highlights 
 text:
 Tesla (NASDAQ:TSLA) Autonomy Investor Day 2019 was designed to kick off today at 11 a.m., sharing information on the company’s self-driving vehicle technology to investors.
-Source: Tesla
-
 The Tesla Autonomy Investor Day 2019 took place at the company’s headquarters in Palo Alto, California and Autopilot was dicussed.
 “Tesla is making significant progress in the development of its autonomous driving software and hardware, including our FSD computer, which is currently in production and which will enable full-self driving via future over-the-air software updates,” the company said when it announced the event.
 Those who attended received Tesla badges with sequential numbers, likely designed for test rides of the company’s full self-driving functionality.
@@ -141,7 +140,6 @@ CEO Elon Musk and Pete Bannon, vice president of Autopilot engineering, took the
 He added that safety is of the utmost importance for the company.  “Any part of this could fail and the car will keep driving,” Musk added. “The probability of this computer failing is substantially lower than someone losing consciousness.”
 The software can authenticate that any code it runs has been authenticated by the company as genuine, per Bannon.
 The new Tesla chip has neural network actuators that can process 2100 frames per second of incoming imagery from cars with constantly running cameras, Bannon said. This amounts to about 2.5 billion pixels per second.
-
 TSLA stock fell 3.9% on Monday, then gained 0.2% after hours.
 
 === ARTICLE ===
@@ -452,7 +450,7 @@ Nashville is getting a consolation prize in the headquarter contest, and the sta
 The new Amazon center there is planned for downtown Nashville, along the Cumberland river.
 
 === ARTICLE ===
-date: 2023-01-02
+date: 2019-01-09
 company: Amazon
 event: Divorce announcement
 title: Amazon boss Jeff Bezos and wife MacKenzie to divorce
