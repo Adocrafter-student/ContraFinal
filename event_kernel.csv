@@ -1,0 +1,29 @@
+date,company,event,event_type
+2018-08-07,Tesla,Funding secured tweet,positive
+2018-08-17,Tesla,SEC investigation announced,negative
+2018-09-07,Tesla,Joe Rogan podcast,negative
+2018-10-04,Tesla,SEC settlement,positive
+2019-02-19,Tesla,SEC contempt motion,negative
+2019-04-11,Tesla,Autonomy Day,positive
+2019-10-23,Tesla,Q3 profit surprise,positive
+2020-01-29,Tesla,Q4 earnings beat,positive
+2020-02-03,Tesla,Stock crosses $900,positive
+2020-02-05,Tesla,Stock drops 17%,negative
+2020-03-18,Tesla,COVID factory controversy,negative
+2020-05-01,Tesla,Stock price too high tweet,negative
+2020-12-21,Tesla,S&P 500 inclusion,positive
+2018-11-13,Amazon,HQ2 announcement (NYC/Arlington),positive
+2019-01-09,Amazon,Divorce announcement,negative
+2019-02-07,Amazon,National Enquirer extortion claims,negative
+2019-02-14,Amazon,HQ2 NYC cancellation,negative
+2019-07-15,Amazon,Prime Day technical outage,negative
+2020-04-30,Amazon,Q1 earnings beat (COVID boost),positive
+2020-07-29,Amazon,Congress antitrust testimony,negative
+2018-03-17,Meta,Cambridge Analytica scandal,negative
+2018-04-10,Meta,Congress testimony Day 1,negative
+2018-04-11,Meta,Congress testimony Day 2,negative
+2018-07-26,Meta,Stock crashes 19% on earnings,negative
+2018-11-14,Meta,NY Times scandal report,negative
+2019-03-13,Meta,Major platform outage,negative
+2019-10-23,Meta,Congress testimony on Libra,negative
+2020-07-29,Meta,Antitrust hearing with Bezos,negative
